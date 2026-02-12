@@ -361,68 +361,8 @@ const images=[
   "photo2.jpg",
   "photo3.jpg",
   "photo4.jpg",
-  "photo5.jpg",
-  "photo6.jpg",
-  "photo7.jpg",
-  "photo8.jpg",
-  "photo9.jpg",
-  "photo10.jpg"
+  "photo5.jpg"
 ];
-
-function showGallery(){
-  const gallery=document.getElementById("gallery");
-  gallery.style.opacity=1;
-  gallery.style.pointerEvents="all";
-
-  let index=0;
-
-  function showNext(){
-    if(index>=images.length){
-      setTimeout(showFinal,1500);
-      return;
-    }
-
-    const pol=document.createElement("div");
-    pol.className="polaroid";
-
-    // Position random
-    function randomPositionAvoidCenter(){
-
-      let x,y;
-      const centerXmin = 35;
-      const centerXmax = 65;
-      const centerYmin = 30;
-      const centerYmax = 70;
-    
-      do{
-        x = Math.random()*90;
-        y = Math.random()*80;
-      }while(
-        x > centerXmin && x < centerXmax &&
-        y > centerYmin && y < centerYmax
-      );
-    
-      return {x,y};
-    }
-
-    const pos = randomPositionAvoidCenter();
-    pol.style.left = pos.x + "vw";
-    pol.style.top = pos.y + "vh";
-
-    // Rotation random
-    const rotate = Math.random()*40 - 20;
-    pol.style.transform = `rotate(${rotate}deg)`;
-
-    pol.innerHTML=`<img src="${images[index]}">`;
-
-    gallery.appendChild(pol);
-
-    index++;
-    setTimeout(showNext,800);
-  }
-
-  showNext();
-}
 
 
 /* FEU D'ARTIFICE + MESSAGE FINAL */
@@ -444,6 +384,7 @@ function showFinal(){
   for(let i=0;i<totalStrips;i++){
 
     const strip=document.createElement("div");
+    fw.className="firework";
     strip.className="filmStrip";
 
     // Animation verticale alternée
@@ -503,6 +444,7 @@ window.addEventListener("load",()=>{
 </script>
 </body>
 </html>
+
 
 
 
