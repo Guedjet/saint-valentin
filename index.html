@@ -21,6 +21,16 @@ body{
   text-align:center;
 }
 
+/* COEURS */
+.heart{
+  position:absolute;
+  animation:floatUp 6s linear infinite;
+}
+@keyframes floatUp{
+  from{transform:translateY(100vh);opacity:1;}
+  to{transform:translateY(-10vh);opacity:0;}
+}
+
 /* ================= INTRO ================= */
 
 .intro{
@@ -138,6 +148,7 @@ body{
 }
 
 .filmStrip{
+  position:relative;
   width:100%;
   background:black;
   display:flex;
@@ -161,16 +172,17 @@ body{
 .filmStrip::after{
   content:"";
   position:absolute;
-  width:20px;
+  top:0;
   height:100%;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0px,
-      transparent 30px,
-      #111 30px,
-      #111 50px
-    );
+  width:20px;
+  z-index:1;
+  background:repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 30px,
+    #111 30px,
+    #111 50px
+  );
 }
 
 .filmStrip::before{ left:0; }
@@ -248,9 +260,11 @@ body{
 <script>
 
 let envelopeOpened=false;
+let envelopeClickCount = 0;
 let musicStarted=false;
 const music=document.getElementById("music");
 
+/* GALERIE */
 const images=[
   "photo1.jpg",
   "photo2.jpg",
@@ -259,6 +273,19 @@ const images=[
   "photo5.jpg"
 ];
 
+/* 💕 COEURS FLOTANTS */
+function createHeart(){
+  const heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerHTML="❤️";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.fontSize=(15+Math.random()*20)+"px";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+}
+setInterval(createHeart,300);
+
+  
 window.addEventListener("load",()=>{
   setTimeout(()=>{
     document.getElementById("intro").style.display="none";
@@ -266,6 +293,7 @@ window.addEventListener("load",()=>{
   },6000);
 });
 
+/* MUSIQUE */
 function startMusic(){
   if(!musicStarted){
     music.play().catch(()=>{});
@@ -284,18 +312,26 @@ function typeWriter(text,el,i=0){
   }
 }
 
+/* OUVERTURE ENVELOPPE */
 function openEnvelope(e){
-  if(envelopeOpened) return;
-  envelopeOpened=true;
+  e.stopPropagation();
+  envelopeClickCount++;
 
-  startMusic();
+  // Premier clic → ouvrir enveloppe + texte
+  if(envelopeClickCount === 1){
+    startMusic();
+    const env=document.querySelector(".envelope");
+    env.classList.add("open");
+    typeWriter(text, document.getElementById("typedText"));
+  }
 
-  const env=document.querySelector(".envelope");
-  env.classList.add("open");
-
-  typeWriter(text,document.getElementById("typedText"));
+  // Deuxième clic → lancer la surprise finale
+  else if(envelopeClickCount === 2){
+    showFinal();
+  }
 }
 
+/* FEU D'ARTIFICE + MESSAGE FINAL */
 function showFinal(){
 
   const gallery=document.getElementById("gallery");
@@ -365,3 +401,4 @@ function createFirework(){
 </script>
 </body>
 </html>
+
