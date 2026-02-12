@@ -1,128 +1,238 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Pour toi ❤️</title>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Poppins', sans-serif;
-      overflow: hidden;
-      color: white;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<title>Pour toi ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
 
-    .card {
-      background: rgba(255, 255, 255, 0.15);
-      padding: 50px;
-      border-radius: 25px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-      max-width: 500px;
-      animation: fadeIn 2s ease;
-    }
+<style>
+body{
+  margin:0;
+  height:100vh;
+  overflow:hidden;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  text-align:center;
+}
 
-    h1 {
-      font-family: 'Great Vibes', cursive;
-      font-size: 3em;
-      margin-bottom: 20px;
-      animation: slideDown 2s ease;
-    }
+/* COEURS */
+.heart{
+  position:absolute;
+  animation:floatUp 6s linear infinite;
+}
+@keyframes floatUp{
+  from{transform:translateY(100vh);opacity:1;}
+  to{transform:translateY(-10vh);opacity:0;}
+}
 
-    p {
-      font-size: 1.2em;
-      line-height: 1.6;
-      animation: fadeIn 4s ease;
-    }
+/* ENVELOPPE */
+.envelope{
+  width:300px;
+  height:200px;
+  background:white;
+  position:relative;
+  cursor:pointer;
+  border-radius:10px;
+}
+.flap{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#ff4d6d;
+  clip-path:polygon(0 0,100% 0,50% 50%);
+  transition:1s;
+}
+.open .flap{
+  transform:rotateX(180deg);
+  transform-origin:top;
+}
 
-    button {
-      margin-top: 30px;
-      padding: 12px 25px;
-      font-size: 1em;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      background: white;
-      color: #ff4d6d;
-      font-weight: bold;
-      transition: transform 0.3s;
-    }
+/* MESSAGE */
+.message{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:100%;
+  padding:20px;
+  color:#ff4d6d;
+  font-family:'Great Vibes',cursive;
+  font-size:28px;
+  opacity:0;
+  transition:1s;
+}
+.open .message{
+  opacity:1;
+}
 
-    button:hover {
-      transform: scale(1.1);
-    }
+/* GALERIE */
+.gallery{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.85);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  opacity:0;
+  pointer-events:none;
+  transition:1s;
+}
 
-    .heart {
-      position: absolute;
-      color: rgba(255,255,255,0.7);
-      font-size: 20px;
-      animation: floatUp 6s linear infinite;
-    }
+.polaroid{
+  background:white;
+  padding:10px 10px 40px 10px;
+  border-radius:10px;
+  position:absolute;
+  transform:rotate(-10deg);
+  animation:drop 1.5s ease forwards;
+}
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+.polaroid img{
+  max-width:300px;
+  border-radius:8px;
+}
 
-    @keyframes slideDown {
-      from { transform: translateY(-30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+@keyframes drop{
+  from{transform:translateY(-300px) rotate(-20deg);opacity:0;}
+  to{transform:translateY(0) rotate(0);opacity:1;}
+}
 
-    @keyframes floatUp {
-      from {
-        transform: translateY(100vh) scale(1);
-        opacity: 1;
-      }
-      to {
-        transform: translateY(-10vh) scale(1.5);
-        opacity: 0;
-      }
-    }
-  </style>
+/* FEU D'ARTIFICE */
+.firework{
+  position:absolute;
+  width:5px;
+  height:5px;
+  background:white;
+  border-radius:50%;
+  animation:explode 1s ease-out forwards;
+}
+@keyframes explode{
+  from{transform:scale(1);opacity:1;}
+  to{transform:scale(20);opacity:0;}
+}
+
+/* TEXTE FINAL */
+.finalMessage{
+  color:white;
+  font-family:'Great Vibes',cursive;
+  font-size:40px;
+  margin-top:30px;
+  opacity:0;
+  transition:2s;
+}
+</style>
 </head>
-<body>
 
-  <div class="card">
-    <h1>Joyeuse Saint-Valentin ❤️</h1>
-    <p>
-      Mon amour,<br><br>
-      Chaque jour avec toi est un cadeau.<br>
-      Merci d’illuminer ma vie, de me faire sourire
-      et d’être toi 💖<br><br>
-      Je t’aime.
-    </p>
-    <button onclick="playMusic()">🎶 Clique ici</button>
-  </div>
+<body onclick="startMusic()">
 
-  <audio id="music" src="https://cdn.pixabay.com/audio/2022/10/09/audio_4b0b89c3f6.mp3"></audio>
+<div class="envelope" onclick="openEnvelope(event)">
+  <div class="flap"></div>
+  <div class="message" id="typedText"></div>
+</div>
 
-  <script>
-    function playMusic() {
-      document.getElementById("music").play();
+<div class="gallery" id="gallery"></div>
+
+<audio id="music" autoplay loop>
+  <source src="https://cdn.pixabay.com/audio/2022/02/23/audio_d1718f2f63.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+/* MUSIQUE */
+function startMusic(){
+  document.getElementById("music").play().catch(()=>{});
+}
+
+/* COEURS */
+function createHeart(){
+  const heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerHTML="❤️";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.fontSize=(15+Math.random()*20)+"px";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+}
+setInterval(createHeart,300);
+
+/* OUVERTURE ENVELOPPE */
+const text="Mon amour... chaque jour avec toi est un cadeau ❤️";
+function typeWriter(text,element,i=0){
+  if(i<text.length){
+    element.innerHTML+=text.charAt(i);
+    setTimeout(()=>typeWriter(text,element,i+1),50);
+  }else{
+    setTimeout(showGallery,1500);
+  }
+}
+
+function openEnvelope(e){
+  e.stopPropagation();
+  const env=document.querySelector(".envelope");
+  env.classList.add("open");
+  typeWriter(text,document.getElementById("typedText"));
+}
+
+/* GALERIE */
+const images=[
+  "photo1.jpg",
+  "photo2.jpg",
+  "photo3.jpg"
+];
+
+function showGallery(){
+  const gallery=document.getElementById("gallery");
+  gallery.style.opacity=1;
+  gallery.style.pointerEvents="all";
+
+  let index=0;
+
+  function showNext(){
+    if(index>=images.length){
+      showFinal();
+      return;
     }
 
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.classList.add("heart");
-      heart.innerHTML = "❤️";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = Math.random() * 20 + 15 + "px";
-      document.body.appendChild(heart);
+    const pol=document.createElement("div");
+    pol.className="polaroid";
+    pol.style.top=(20+index*40)+"px";
+    pol.innerHTML=`<img src="${images[index]}">`;
+    gallery.appendChild(pol);
 
-      setTimeout(() => {
-        heart.remove();
-      }, 6000);
-    }
+    index++;
+    setTimeout(showNext,2000);
+  }
 
-    setInterval(createHeart, 300);
-  </script>
+  showNext();
+}
 
+/* FEU D'ARTIFICE + MESSAGE FINAL */
+function showFinal(){
+  for(let i=0;i<20;i++){
+    const fw=document.createElement("div");
+    fw.className="firework";
+    fw.style.left=Math.random()*100+"vw";
+    fw.style.top=Math.random()*100+"vh";
+    document.body.appendChild(fw);
+    setTimeout(()=>fw.remove(),1000);
+  }
+
+  const gallery=document.getElementById("gallery");
+  const final=document.createElement("div");
+  final.className="finalMessage";
+  final.innerHTML="Je t’aime plus que tout 💖";
+  gallery.appendChild(final);
+
+  setTimeout(()=>final.style.opacity=1,500);
+}
+
+</script>
 </body>
 </html>
