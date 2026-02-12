@@ -184,6 +184,102 @@ body{
   to{opacity:0;pointer-events:none;}
 }
 
+/* ================= FILM STRIPS ================= */
+
+.filmContainer{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:space-between;
+  z-index:2;
+  overflow:hidden;
+}
+
+.filmStrip{
+  width:120px;
+  background:black;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:20px;
+  padding:20px 0;
+  animation-duration:12s;
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+  opacity:0.9;
+}
+
+.filmStrip img{
+  width:90px;
+  border-radius:6px;
+  border:4px solid #222;
+}
+
+/* Mouvement vertical */
+
+@keyframes scrollDown{
+  from{transform:translateY(-50%);}
+  to{transform:translateY(0%);}
+}
+
+@keyframes scrollUp{
+  from{transform:translateY(0%);}
+  to{transform:translateY(-50%);}
+}
+
+/* Animation arrivée depuis côtés */
+
+.slideLeft{
+  animation:enterLeft 1.5s ease forwards;
+}
+
+.slideRight{
+  animation:enterRight 1.5s ease forwards;
+}
+
+@keyframes enterLeft{
+  from{transform:translateX(-200px);}
+  to{transform:translateX(0);}
+}
+
+@keyframes enterRight{
+  from{transform:translateX(200px);}
+  to{transform:translateX(0);}
+}
+
+/* Assombrissement centre */
+
+.centerOverlay{
+  position:absolute;
+  top:0;
+  left:35%;
+  width:30%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  z-index:3;
+  backdrop-filter:blur(3px);
+}
+
+/* TEXTE FINAL AU DESSUS */
+
+.finalMessage{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-family:'Great Vibes',cursive;
+  font-size:60px;
+  color:white;
+  z-index:4;
+  opacity:0;
+  transition:2s;
+  text-align:center;
+}
+
+
 </style>
 </head>
 
@@ -336,24 +432,64 @@ function randomColor(){
 
 function showFinal(){
 
-  for(let i=0;i<25;i++){
-    const fw=document.createElement("div");
-    fw.className="firework";
-    fw.style.left=Math.random()*100+"vw";
-    fw.style.top=Math.random()*100+"vh";
-    fw.style.background=randomColor();
-    document.body.appendChild(fw);
-    setTimeout(()=>fw.remove(),1000);
+  const gallery=document.getElementById("gallery");
+  gallery.style.opacity=1;
+  gallery.style.pointerEvents="none";
+
+  const container=document.createElement("div");
+  container.className="filmContainer";
+
+  const totalStrips=8; // nombre de colonnes
+
+  for(let i=0;i<totalStrips;i++){
+
+    const strip=document.createElement("div");
+    strip.className="filmStrip";
+
+    // Animation verticale alternée
+    if(i%2===0){
+      strip.style.animationName="scrollDown";
+    }else{
+      strip.style.animationName="scrollUp";
+    }
+
+    // Entrée depuis côtés
+    if(i < totalStrips/2){
+      strip.classList.add("slideLeft");
+    }else{
+      strip.classList.add("slideRight");
+    }
+
+    // Ajouter photos répétées
+    for(let r=0;r<6;r++){
+      images.forEach(src=>{
+        const img=document.createElement("img");
+        img.src=src;
+        strip.appendChild(img);
+      });
+    }
+
+    container.appendChild(strip);
   }
 
-  const gallery=document.getElementById("gallery");
+  gallery.appendChild(container);
+
+  // Overlay centre
+  const overlay=document.createElement("div");
+  overlay.className="centerOverlay";
+  gallery.appendChild(overlay);
+
+  // Texte final au-dessus
   const final=document.createElement("div");
   final.className="finalMessage";
-  final.innerHTML="Je t’aime plus que tout 💖";
+  final.innerHTML="Je t’aime plus que tout ❤️";
   gallery.appendChild(final);
 
-  setTimeout(()=>final.style.opacity=1,500);
+  setTimeout(()=>{
+    final.style.opacity=1;
+  },1500);
 }
+
 
 /* ================= INTRO TRANSITION ================= */
 
@@ -367,6 +503,7 @@ window.addEventListener("load",()=>{
 </script>
 </body>
 </html>
+
 
 
 
