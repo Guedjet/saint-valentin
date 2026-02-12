@@ -146,8 +146,14 @@ body{
 <script>
 
 /* MUSIQUE */
+let musicStarted = false;
+const music = document.getElementById("music");
+
 function startMusic(){
-  document.getElementById("music").play().catch(()=>{});
+  if(!musicStarted){
+    music.play().catch(()=>{});
+    musicStarted = true;
+  }
 }
 
 /* COEURS */
@@ -164,19 +170,23 @@ setInterval(createHeart,300);
 
 /* OUVERTURE ENVELOPPE */
 const text="Mon amour... chaque jour avec toi est un cadeau ❤️";
+
 function typeWriter(text,element,i=0){
   if(i<text.length){
     element.innerHTML+=text.charAt(i);
-    setTimeout(()=>typeWriter(text,element,i+1),50);
+    setTimeout(()=>typeWriter(text,element,i+1),40);
   }else{
-    setTimeout(showGallery,1500);
+    setTimeout(showGallery,1200);
   }
 }
 
 function openEnvelope(e){
   e.stopPropagation();
+  startMusic();
+
   const env=document.querySelector(".envelope");
   env.classList.add("open");
+
   typeWriter(text,document.getElementById("typedText"));
 }
 
@@ -196,30 +206,46 @@ function showGallery(){
 
   function showNext(){
     if(index>=images.length){
-      showFinal();
+      setTimeout(showFinal,1500);
       return;
     }
 
     const pol=document.createElement("div");
     pol.className="polaroid";
-    pol.style.top=(20+index*40)+"px";
+
+    // Position random
+    pol.style.left = Math.random()*70 + 10 + "vw";
+    pol.style.top = Math.random()*60 + 10 + "vh";
+
+    // Rotation random
+    const rotate = Math.random()*40 - 20;
+    pol.style.transform = `rotate(${rotate}deg)`;
+
     pol.innerHTML=`<img src="${images[index]}">`;
+
     gallery.appendChild(pol);
 
     index++;
-    setTimeout(showNext,2000);
+    setTimeout(showNext,800);
   }
 
   showNext();
 }
 
+
 /* FEU D'ARTIFICE + MESSAGE FINAL */
+function randomColor(){
+  return `hsl(${Math.random()*360}, 100%, 60%)`;
+}
+
 function showFinal(){
-  for(let i=0;i<20;i++){
+
+  for(let i=0;i<25;i++){
     const fw=document.createElement("div");
     fw.className="firework";
     fw.style.left=Math.random()*100+"vw";
     fw.style.top=Math.random()*100+"vh";
+    fw.style.background=randomColor();
     document.body.appendChild(fw);
     setTimeout(()=>fw.remove(),1000);
   }
@@ -232,7 +258,7 @@ function showFinal(){
 
   setTimeout(()=>final.style.opacity=1,500);
 }
-
 </script>
 </body>
 </html>
+
