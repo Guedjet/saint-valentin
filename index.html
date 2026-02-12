@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Pour toi ❤️</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
 
 <style>
+  
 body{
   margin:0;
   height:100vh;
@@ -19,120 +21,11 @@ body{
   text-align:center;
 }
 
-/* COEURS */
-.heart{
-  position:absolute;
-  animation:floatUp 6s linear infinite;
-}
-@keyframes floatUp{
-  from{transform:translateY(100vh);opacity:1;}
-  to{transform:translateY(-10vh);opacity:0;}
-}
-
-/* ENVELOPPE */
-.envelope{
-  width:420px;
-  height:300px;
-  background:white;
-  position:relative;
-  cursor:pointer;
-  border-radius:15px;
-  opacity:0;
-  transition:1s;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
-}
-.flap{
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:#ff4d6d;
-  clip-path:polygon(0 0,100% 0,50% 50%);
-  transition:1s;
-}
-.open .flap{
-  transform:rotateX(180deg);
-  transform-origin:top;
-}
-
-/* MESSAGE */
-.message{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:80%;
-  max-height:70%;
-  padding:10px;
-  color:#ff4d6d;
-  font-family:'Great Vibes',cursive;
-  font-size:32px;
-  text-align:center;
-  opacity:0;
-  transition:1s;
-  overflow:auto;
-  word-wrap:break-word;
-}
-.open .message{
-  opacity:1;
-}
-
-/* GALERIE */
-.gallery{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.85);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  opacity:0;
-  pointer-events:none;
-  transition:1s;
-}
-
-@keyframes drop{
-  from{transform:translateY(-300px) rotate(-20deg);opacity:0;}
-  to{transform:translateY(0) rotate(0);opacity:1;}
-}
-
-/* FEU D'ARTIFICE */
-.firework{
-  position:absolute;
-  width:5px;
-  height:5px;
-  background:white;
-  border-radius:50%;
-  animation:explode 1s ease-out forwards;
-}
-@keyframes explode{
-  from{transform:scale(1);opacity:1;}
-  to{transform:scale(20);opacity:0;}
-}
-
-/* TEXTE FINAL */
-.finalMessage{
-  color:white;
-  font-family:'Great Vibes',cursive;
-  font-size:40px;
-  margin-top:30px;
-  opacity:0;
-  transition:2s;
-}
-
-/* ================= INTRO 3D ================= */
+/* ================= INTRO ================= */
 
 .intro{
   position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+  inset:0;
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -170,17 +63,72 @@ body{
   to{opacity:0;pointer-events:none;}
 }
 
-/* ================= FILM STRIPS FIX ================= */
+/* ================= ENVELOPPE ================= */
 
-.filmContainer{
-  position:fixed;
-  top:0;
-  left:0;
+.envelope{
+  width:420px;
+  height:300px;
+  background:white;
+  border-radius:15px;
+  position:relative;
+  cursor:pointer;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  transition:1s;
+  overflow:hidden;
+}
+
+.flap{
+  position:absolute;
   width:100%;
   height:100%;
+  background:#ff4d6d;
+  clip-path:polygon(0 0,100% 0,50% 50%);
+  transition:1s;
+}
+
+.open .flap{
+  transform:rotateX(180deg);
+  transform-origin:top;
+}
+
+.message{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:80%;
+  max-height:70%;
+  padding:10px;
+  color:#ff4d6d;
+  font-family:'Great Vibes',cursive;
+  font-size:32px;
+  text-align:center;
+  opacity:0;
+  transition:1s;
+  overflow:auto;
+}
+
+.open .message{
+  opacity:1;
+}
+
+/* ================= FILM STRIPS ================= */
+
+.gallery{
+  position:fixed;
+  inset:0;
+  opacity:0;
+  pointer-events:none;
+}
+
+.filmContainer{
+  position:absolute;
+  inset:0;
   display:flex;
   justify-content:space-between;
-  z-index:2;
   overflow:hidden;
 }
 
@@ -196,10 +144,11 @@ body{
   flex-direction:column;
   align-items:center;
   gap:20px;
-  padding:20px 0;
-  opacity:0.9;
-  animation:scroll 12s linear infinite;
+  padding:40px 0;
+  animation:scrollDown 12s linear infinite;
 }
+
+.scrollUp{ animation:scrollUp 12s linear infinite; }
 
 .filmStrip img{
   width:90px;
@@ -207,14 +156,27 @@ body{
   border:4px solid #222;
 }
 
-/* Animation alternée */
-.scrollDown{
-  animation-name:scrollDown;
+/* Trous pellicule */
+.filmStrip::before,
+.filmStrip::after{
+  content:"";
+  position:absolute;
+  width:20px;
+  height:100%;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 30px,
+      #111 30px,
+      #111 50px
+    );
 }
 
-.scrollUp{
-  animation-name:scrollUp;
-}
+.filmStrip::before{ left:0; }
+.filmStrip::after{ right:0; }
+
+/* Animations verticales */
 
 @keyframes scrollDown{
   from{transform:translateY(-50%);}
@@ -226,38 +188,21 @@ body{
   to{transform:translateY(-50%);}
 }
 
-/* Entrée latérale */
-.enterLeft{
-  animation:enterLeft 1.5s ease forwards;
-}
-
-.enterRight{
-  animation:enterRight 1.5s ease forwards;
-}
-
-@keyframes enterLeft{
-  from{transform:translateX(-200px);}
-  to{transform:translateX(0);}
-}
-
-@keyframes enterRight{
-  from{transform:translateX(200px);}
-  to{transform:translateX(0);}
-}
-
 /* Overlay centre */
+
 .centerOverlay{
   position:absolute;
   top:0;
   left:35%;
   width:30%;
   height:100%;
-  background:rgba(0,0,0,0.7);
+  background:rgba(0,0,0,0.75);
+  backdrop-filter:blur(4px);
   z-index:3;
-  backdrop-filter:blur(3px);
 }
 
 /* Texte final */
+
 .finalMessage{
   position:absolute;
   top:50%;
@@ -269,14 +214,19 @@ body{
   z-index:4;
   opacity:0;
   transition:2s;
-  text-align:center;
 }
 
+/* Feux d'artifice */
+
+@keyframes explode{
+  from{transform:scale(1);opacity:1;}
+  to{transform:scale(20);opacity:0;}
+}
 
 </style>
 </head>
 
-<body onclick="startMusic()">
+<body>
 
 <div class="intro" id="intro">
   <div class="bouquet">💐</div>
@@ -290,83 +240,60 @@ body{
 
 <div class="gallery" id="gallery"></div>
 
+<!-- 🎵 MUSIQUE -->
 <audio id="music" loop>
-  <source src="https://cdn.pixabay.com/audio/2022/02/23/audio_d1718f2f63.mp3" type="audio/mpeg">
+  <source src="https://dn721809.ca.archive.org/0/items/78_14173-I-want-you-I-need-you-I-love-you/14173-I-want-you-I-need-you-I-love-you.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-let envelopeOpened = false;
+let envelopeOpened=false;
+let musicStarted=false;
+const music=document.getElementById("music");
 
-/* MUSIQUE */
-let musicStarted = false;
-const music = document.getElementById("music");
-
-function startMusic(){
-  if(!musicStarted){
-    music.play().catch(()=>{});
-    musicStarted = true;
-  }
-}
-
-/* COEURS */
-function createHeart(){
-  const heart=document.createElement("div");
-  heart.className="heart";
-  heart.innerHTML="❤️";
-  heart.style.left=Math.random()*100+"vw";
-  heart.style.fontSize=(15+Math.random()*20)+"px";
-  document.body.appendChild(heart);
-  setTimeout(()=>heart.remove(),6000);
-}
-setInterval(createHeart,300);
-
-/* OUVERTURE ENVELOPPE */
-const text="Mon amour... chaque jour avec toi est un cadeau ❤️";
-
-function typeWriter(text,element,i=0){
-  if(i<text.length){
-    element.innerHTML+=text.charAt(i);
-    setTimeout(()=>typeWriter(text,element,i+1),40);
-  }else{
-    setTimeout(showGallery,1200);
-  }
-}
-
-function openEnvelope(e){
-
-  if(envelopeOpened) return; // bloque les clics suivants
-  envelopeOpened = true;
-
-  e.stopPropagation();
-  startMusic();
-
-  const env=document.querySelector(".envelope");
-  env.classList.add("open");
-  env.style.cursor="default";
-
-  typeWriter(text,document.getElementById("typedText"));
-}
-
-/* GALERIE */
 const images=[
   "photo1.jpg",
   "photo2.jpg",
   "photo3.jpg",
   "photo4.jpg",
-  "photo5.jpg",
-  "photo6.jpg",
-  "photo7.jpg",
-  "photo8.jpg",
-  "photo9.jpg",
-  "photo10.jpg"
+  "photo5.jpg"
 ];
 
+window.addEventListener("load",()=>{
+  setTimeout(()=>{
+    document.getElementById("intro").style.display="none";
+    document.querySelector(".envelope").style.opacity=1;
+  },6000);
+});
 
+function startMusic(){
+  if(!musicStarted){
+    music.play().catch(()=>{});
+    musicStarted=true;
+  }
+}
 
-/* FEU D'ARTIFICE + MESSAGE FINAL */
-function randomColor(){
-  return `hsl(${Math.random()*360}, 100%, 60%)`;
+const text="Mon amour... chaque jour avec toi est un cadeau ❤️";
+
+function typeWriter(text,el,i=0){
+  if(i<text.length){
+    el.innerHTML+=text.charAt(i);
+    setTimeout(()=>typeWriter(text,el,i+1),40);
+  }else{
+    setTimeout(showFinal,1500);
+  }
+}
+
+function openEnvelope(e){
+  if(envelopeOpened) return;
+  envelopeOpened=true;
+
+  startMusic();
+
+  const env=document.querySelector(".envelope");
+  env.classList.add("open");
+
+  typeWriter(text,document.getElementById("typedText"));
 }
 
 function showFinal(){
@@ -384,22 +311,11 @@ function showFinal(){
     const wrapper=document.createElement("div");
     wrapper.className="stripWrapper";
 
-    if(i < totalStrips/2){
-      wrapper.classList.add("enterLeft");
-    }else{
-      wrapper.classList.add("enterRight");
-    }
-
     const strip=document.createElement("div");
     strip.className="filmStrip";
 
-    if(i%2===0){
-      strip.classList.add("scrollDown");
-    }else{
-      strip.classList.add("scrollUp");
-    }
+    if(i%2!==0) strip.classList.add("scrollUp");
 
-    // Doubler les images pour boucle fluide
     for(let r=0;r<8;r++){
       images.forEach(src=>{
         const img=document.createElement("img");
@@ -414,30 +330,22 @@ function showFinal(){
 
   gallery.appendChild(container);
 
-  // Overlay centre
   const overlay=document.createElement("div");
   overlay.className="centerOverlay";
   gallery.appendChild(overlay);
 
-  // Texte final
   const final=document.createElement("div");
   final.className="finalMessage";
   final.innerHTML="Je t’aime plus que tout ❤️";
   gallery.appendChild(final);
 
-  setTimeout(()=>{
-    final.style.opacity=1;
-  },1500);
+  setTimeout(()=>final.style.opacity=1,1500);
 
-  // 🎆 Feux d'artifice colorés
+  // Feux d'artifice colorés
   for(let i=0;i<30;i++){
-    setTimeout(()=>{
-      createFirework();
-    }, i*150);
+    setTimeout(createFirework,i*150);
   }
 }
-
-/* ================= FEUX D'ARTIFICE FIX ================= */
 
 function createFirework(){
   const fw=document.createElement("div");
@@ -451,26 +359,9 @@ function createFirework(){
   fw.style.zIndex="5";
   fw.style.animation="explode 1s ease-out forwards";
   document.body.appendChild(fw);
-
   setTimeout(()=>fw.remove(),1000);
 }
-
-@keyframes explode{
-  from{transform:scale(1);opacity:1;}
-  to{transform:scale(20);opacity:0;}
-}
-
-/* ================= INTRO TRANSITION ================= */
-
-window.addEventListener("load",()=>{
-  setTimeout(()=>{
-    document.getElementById("intro").style.display="none";
-    document.querySelector(".envelope").style.opacity=1;
-  },6000);
-});
 
 </script>
 </body>
 </html>
-
-
