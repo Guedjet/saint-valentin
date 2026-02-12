@@ -37,6 +37,8 @@ body{
   position:relative;
   cursor:pointer;
   border-radius:10px;
+  opacity:0;
+  transition:1s;
 }
 .flap{
   position:absolute;
@@ -127,10 +129,61 @@ body{
   opacity:0;
   transition:2s;
 }
+
+/* ================= INTRO 3D ================= */
+
+.intro{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
+  z-index:10;
+  animation:fadeOutIntro 2s ease 4s forwards;
+}
+
+.bouquet{
+  font-size:120px;
+  animation:pop3D 2s ease forwards;
+}
+
+.introText{
+  font-family:'Great Vibes',cursive;
+  font-size:50px;
+  margin-top:20px;
+  opacity:0;
+  animation:fadeInText 2s ease 1s forwards;
+}
+
+@keyframes pop3D{
+  0%{transform:scale(0) rotateX(90deg);}
+  50%{transform:scale(1.3) rotateX(0);}
+  100%{transform:scale(1);}
+}
+
+@keyframes fadeInText{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+
+@keyframes fadeOutIntro{
+  to{opacity:0;pointer-events:none;}
+}
+
 </style>
 </head>
 
 <body onclick="startMusic()">
+
+<div class="intro" id="intro">
+  <div class="bouquet">💐</div>
+  <div class="introText">Joyeuse Saint-Valentin ❤️</div>
+</div>
 
 <div class="envelope" onclick="openEnvelope(event)">
   <div class="flap"></div>
@@ -214,8 +267,28 @@ function showGallery(){
     pol.className="polaroid";
 
     // Position random
-    pol.style.left = Math.random()*70 + 10 + "vw";
-    pol.style.top = Math.random()*60 + 10 + "vh";
+    function randomPositionAvoidCenter(){
+
+      let x,y;
+      const centerXmin = 35;
+      const centerXmax = 65;
+      const centerYmin = 30;
+      const centerYmax = 70;
+    
+      do{
+        x = Math.random()*90;
+        y = Math.random()*80;
+      }while(
+        x > centerXmin && x < centerXmax &&
+        y > centerYmin && y < centerYmax
+      );
+    
+      return {x,y};
+    }
+
+    const pos = randomPositionAvoidCenter();
+    pol.style.left = pos.x + "vw";
+    pol.style.top = pos.y + "vh";
 
     // Rotation random
     const rotate = Math.random()*40 - 20;
@@ -258,8 +331,19 @@ function showFinal(){
 
   setTimeout(()=>final.style.opacity=1,500);
 }
+
+/* ================= INTRO TRANSITION ================= */
+
+window.addEventListener("load",()=>{
+  setTimeout(()=>{
+    document.getElementById("intro").style.display="none";
+    document.querySelector(".envelope").style.opacity=1;
+  },6000);
+});
+
 </script>
 </body>
 </html>
+
 
 
