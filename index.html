@@ -140,6 +140,7 @@ body{
   transform:translateY(50px) scale(0.9);
   transition:1s;
   z-index:2;
+  pointer-events:none; /* permet aux clics de passer à travers la lettre tant qu’on ne veut pas interagir avec elle. */
 }
 
 .letter.show{
@@ -278,7 +279,6 @@ body{
 
 <div class="envelope" onclick="openEnvelope(event)">
   <div class="flap"></div>
-  <div class="message" id="typedText"></div>
 </div>
 
 <div class="letter" id="letter">
@@ -318,7 +318,8 @@ const images=[
   "photo4.jpg",
   "photo5.jpg",
   "photo6.jpg",
-  "photo7.jpg"
+  "photo7.jpg",
+  "photo8.jpg"
 ];
 
 /* 💕 COEURS FLOTANTS */
@@ -355,7 +356,7 @@ Chaque jour avec toi est un cadeau ❤️
 Je ne pourrai jamais t’en offrir assez pour t’exprimer tout l’amour que tu me procures.
 
 Malgré la distance qui nous sépare, ma passion pour toi ne fait que brûler plus fort…  
-Ce serait embêtant si ça me brûlait vraiment.
+Ce serait embêtant si ça me brûlait vraiment.😅
 
 Je dois passer cette deuxième Saint-Valentin loin de toi,  
 mais j’espère que ce petit présent saura te montrer que, peu importe la distance,  
@@ -479,6 +480,7 @@ function createFirework(){
 </script>
 </body>
 </html>
+
 
 
 
