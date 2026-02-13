@@ -109,15 +109,15 @@ body{
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  width:80%;
-  max-height:70%;
-  padding:10px;
+  width:85%;
+  max-height:75%;
+  padding:20px;
   color:#ff4d6d;
   font-family:'Great Vibes',cursive;
-  font-size:32px;
-  text-align:center;
-  opacity:0;
-  transition:1s;
+  font-size:clamp(26px, 2.3vw, 38px);
+  text-align:left;
+  line-height:1.6;
+  white-space:pre-line;
   overflow:auto;
 }
 
@@ -270,7 +270,12 @@ const images=[
   "photo2.jpg",
   "photo3.jpg",
   "photo4.jpg",
-  "photo5.jpg"
+  "photo5.jpg",
+  "photo6.jpg",
+  "photo7.jpg",
+  "photo8.jpg",
+  "photo9.jpg",
+  "photo10.jpg"
 ];
 
 /* 💕 COEURS FLOTANTS */
@@ -301,16 +306,32 @@ function startMusic(){
   }
 }
 
-const text="Mon amour... chaque jour avec toi est un cadeau ❤️";
+const text = `Mon amour,
+
+Chaque jour avec toi est un cadeau ❤️  
+Je ne pourrai jamais t’en offrir assez pour t’exprimer tout l’amour que tu me procures.
+
+Malgré la distance qui nous sépare, ma passion pour toi ne fait que brûler plus fort…  
+Ce serait embêtant si ça me brûlait vraiment.
+
+Je dois passer cette deuxième Saint-Valentin loin de toi,  
+mais j’espère que ce petit présent saura te montrer que, peu importe la distance,  
+je pense à toi, je rêve de toi, je me languis de toi.
+
+Je t’aime.
+
+Sincèrement à toi,  
+Ton Théophile.`;
+
 
 function typeWriter(text,el,i=0){
   if(i<text.length){
     el.innerHTML+=text.charAt(i);
     setTimeout(()=>typeWriter(text,el,i+1),40);
-  }else{
-    setTimeout(showFinal,1500);
   }
+  // ❌ On ne lance PLUS showFinal automatiquement
 }
+
 
 /* OUVERTURE ENVELOPPE */
 function openEnvelope(e){
@@ -401,4 +422,5 @@ function createFirework(){
 </script>
 </body>
 </html>
+
 
