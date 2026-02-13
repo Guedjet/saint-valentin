@@ -73,23 +73,22 @@ body{
   to{opacity:0;pointer-events:none;}
 }
 
-/* ================= ENVELOPPE ================= */
+/* ================= ENVELOPPE / LETTRE ================= */
 
 .envelope{
   width:420px;
   height:300px;
-  background:white;
-  border-radius:15px;
+  background:#fffdf8;
+  border-radius:12px;
   position:relative;
   cursor:pointer;
-  display:flex;
-  justify-content:center;
-  align-items:center;
   opacity:0;
   transition:1s;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
   overflow:hidden;
 }
 
+/* Rabat haut */
 .flap{
   position:absolute;
   width:100%;
@@ -97,6 +96,51 @@ body{
   background:#ff4d6d;
   clip-path:polygon(0 0,100% 0,50% 50%);
   transition:1s;
+  z-index:3;
+}
+
+/* Volets gauche/droite */
+.side{
+  position:absolute;
+  width:50%;
+  height:100%;
+  background:#ffe6eb;
+  top:0;
+  transition:1s;
+  z-index:2;
+}
+
+.side.left{
+  left:0;
+  clip-path:polygon(0 0,100% 50%,0 100%);
+}
+
+.side.right{
+  right:0;
+  clip-path:polygon(100% 0,0 50%,100% 100%);
+}
+
+/* Texte */
+.letterText{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:85%;
+  color:#b3003c;
+  font-family:'Great Vibes',cursive;
+  font-size:28px;
+  line-height:1.7;
+  white-space:pre-line;
+  opacity:0;
+  transition:1s;
+  z-index:1;
+}
+
+/* OUVERTURE STYLE LETTRE */
+
+.open{
+  height:520px;
 }
 
 .open .flap{
@@ -104,56 +148,16 @@ body{
   transform-origin:top;
 }
 
-.message{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:85%;
-  max-height:75%;
-  padding:20px;
-  color:#ff4d6d;
-  font-family:'Great Vibes',cursive;
-  font-size:clamp(26px, 2.3vw, 38px);
-  text-align:left;
-  line-height:1.6;
-  white-space:pre-line;
-  overflow:auto;
+.open .side.left{
+  transform:translateX(-100%);
 }
 
-.open .message{
+.open .side.right{
+  transform:translateX(100%);
+}
+
+.open .letterText{
   opacity:1;
-}
-
-
-/* LETTRE */
-.letter{
-  position:absolute;
-  width:650px;
-  height:500px;
-  background:#fffdf8;
-  border-radius:10px;
-  box-shadow:0 15px 40px rgba(0,0,0,0.3);
-  padding:50px;
-  box-sizing:border-box;
-  opacity:0;
-  transform:translateY(50px) scale(0.9);
-  transition:1s;
-  z-index:2;
-  pointer-events:none; /* permet aux clics de passer à travers la lettre tant qu’on ne veut pas interagir avec elle. */
-}
-
-.letter.show{
-  opacity:1;
-  transform:translateY(-40px) scale(1);
-}
-
-.letterText{
-  font-family:'Great Vibes',cursive;
-  font-size:30px;
-  color:#b3003c;
-  line-height:1.7;
-  white-space:pre-line;
 }
 
 
@@ -279,6 +283,9 @@ body{
 
 <div class="envelope" onclick="openEnvelope(event)">
   <div class="flap"></div>
+  <div class="side left"></div>
+  <div class="side right"></div>
+  <div class="letterText" id="typedText"></div>
 </div>
 
 <div class="letter" id="letter">
@@ -406,6 +413,7 @@ function openEnvelope(e){
   else if(envelopeClickCount === 2 && typingFinished){
     clearTimeout(reminderTimeout);
     document.getElementById("reminder").style.opacity = 0;
+    document.querySelector(".envelope").style.opacity = 0;
     showFinal();
   }
 }
@@ -480,6 +488,7 @@ function createFirework(){
 </script>
 </body>
 </html>
+
 
 
 
