@@ -138,7 +138,7 @@ body{
   opacity:0;
   transition:1s;
   z-index:1;
-  pointer-events:none; /* pour que le clic passe sur l'enveloppe */
+  pointer-events:auto; /* pour que le clic passe sur l'enveloppe *//* permet le scroll */
 }
 
 /* OUVERTURE STYLE LETTRE */
@@ -284,7 +284,7 @@ body{
   <div class="introText">Joyeuse Saint-Valentin ❤️</div>
 </div>
 
-<div class="envelope" onclick="openEnvelope(event)">
+<div class="envelope" onclick="envelope">
   <div class="flap"></div>
   <div class="side left"></div>
   <div class="side right"></div>
@@ -328,6 +328,24 @@ const images=[
   "photo8.jpg"
 ];
 
+const envelope = document.getElementById("envelope");
+let mouseDownPos = {x:0, y:0};
+
+envelope.addEventListener("mousedown", (e) => {
+  mouseDownPos = {x: e.clientX, y: e.clientY};
+});
+
+envelope.addEventListener("click", (e) => {
+  const dx = Math.abs(e.clientX - mouseDownPos.x);
+  const dy = Math.abs(e.clientY - mouseDownPos.y);
+
+  // si le mouvement est petit, c'est un vrai clic, sinon c'était un scroll
+  if(dx < 5 && dy < 5){
+    openEnvelope(e);
+  }
+});
+
+  
 /* 💕 COEURS FLOTANTS */
 function createHeart(){
   const heart=document.createElement("div");
@@ -486,6 +504,7 @@ function createFirework(){
 </script>
 </body>
 </html>
+
 
 
 
