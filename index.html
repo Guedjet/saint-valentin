@@ -120,25 +120,28 @@ body{
   clip-path:polygon(100% 0,0 50%,100% 100%);
 }
 
-/* Texte */
+/* Conteneur texte scrollable */
 .letterText{
   position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:85%;
-  color:#b3003c;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  padding:20px;
+  box-sizing:border-box;
   font-family:'Great Vibes',cursive;
-  font-size:28px;
-  line-height:1.7;
+  font-size:22px;
+  line-height:1.6;
+  color:#b3003c;
+  overflow-y:auto;
   white-space:pre-line;
   opacity:0;
   transition:1s;
   z-index:1;
+  pointer-events:none; /* pour que le clic passe sur l'enveloppe */
 }
 
 /* OUVERTURE STYLE LETTRE */
-
 .open{
   height:520px;
 }
@@ -288,10 +291,6 @@ body{
   <div class="letterText" id="typedText"></div>
 </div>
 
-<div class="letter" id="letter">
-  <div class="letterText" id="typedText"></div>
-</div>
-
 <div id="reminder" style="position:absolute;left:5%;top:50%;transform:translateY(-50%);opacity:0;transition:1s;z-index:6;text-align:center;">
   <img src="https://cdn3d.iconscout.com/3d/premium/thumb/emoji-desole-tenant-un-bouquet-de-fleurs-3d-icon-png-download-12247331.png?f=webp" width="180">
   <div style="font-family:'Poppins';margin-top:15px;color:white;">
@@ -397,23 +396,22 @@ function openEnvelope(e){
   e.stopPropagation();
   envelopeClickCount++;
 
+  const env = document.querySelector(".envelope");
+  const textEl = document.getElementById("typedText");
+
   // Premier clic → ouvrir enveloppe + texte
   if(envelopeClickCount === 1){
     startMusic();
-    const env=document.querySelector(".envelope");
     env.classList.add("open");
 
-    const letter=document.getElementById("letter");
-    setTimeout(()=>letter.classList.add("show"),600);
-    
-    typeWriter(text, document.getElementById("typedText"));
+    typeWriter(text, textEl);
   }
 
-  // Deuxième clic → lancer la surprise finale
+  // Deuxième clic → message final
   else if(envelopeClickCount === 2 && typingFinished){
     clearTimeout(reminderTimeout);
     document.getElementById("reminder").style.opacity = 0;
-    document.querySelector(".envelope").style.opacity = 0;
+    env.style.opacity = 0;  // faire disparaître l'enveloppe
     showFinal();
   }
 }
@@ -488,6 +486,7 @@ function createFirework(){
 </script>
 </body>
 </html>
+
 
 
 
