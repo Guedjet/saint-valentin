@@ -20,7 +20,7 @@ body{
   text-align:center;
 }
 
-/* 💕 Coeurs flottants */
+/* COEURS */
 .heart{
   position:absolute;
   animation:floatUp 6s linear infinite;
@@ -30,7 +30,7 @@ body{
   to{transform:translateY(-10vh);opacity:0;}
 }
 
-/* Intro */
+/* INTRO */
 .intro{
   position:fixed;
   inset:0;
@@ -42,13 +42,29 @@ body{
   z-index:10;
   animation:fadeOutIntro 2s ease 4s forwards;
 }
-.bouquet{font-size:120px; animation:pop3D 2s ease forwards;}
-.introText{font-family:'Great Vibes',cursive;font-size:50px;margin-top:20px;opacity:0;animation:fadeInText 2s ease 1s forwards;}
-@keyframes pop3D{0%{transform:scale(0) rotateX(90deg);}50%{transform:scale(1.3) rotateX(0);}100%{transform:scale(1);}}
+
+.bouquet{
+  font-size:120px;
+  animation:pop3D 2s ease forwards;
+}
+
+.introText{
+  font-family:'Great Vibes',cursive;
+  font-size:50px;
+  margin-top:20px;
+  opacity:0;
+  animation:fadeInText 2s ease 1s forwards;
+}
+
+@keyframes pop3D{
+  0%{transform:scale(0) rotateX(90deg);}
+  50%{transform:scale(1.3) rotateX(0);}
+  100%{transform:scale(1);}
+}
 @keyframes fadeInText{from{opacity:0;}to{opacity:1;}}
 @keyframes fadeOutIntro{to{opacity:0;pointer-events:none;}}
 
-/* Enveloppe */
+/* ENVELOPPE / LETTRE */
 .envelope{
   width:420px;
   height:300px;
@@ -61,6 +77,8 @@ body{
   box-shadow:0 10px 30px rgba(0,0,0,0.2);
   overflow:hidden;
 }
+
+/* Rabat haut */
 .flap{
   position:absolute;
   width:100%;
@@ -70,6 +88,8 @@ body{
   transition:1s;
   z-index:3;
 }
+
+/* Volets gauche/droite */
 .side{
   position:absolute;
   width:50%;
@@ -79,10 +99,11 @@ body{
   transition:1s;
   z-index:2;
 }
+
 .side.left{left:0; clip-path:polygon(0 0,100% 50%,0 100%);}
 .side.right{right:0; clip-path:polygon(100% 0,0 50%,100% 100%);}
 
-/* Texte scrollable */
+/* Texte */
 .letterText{
   position:absolute;
   top:0;
@@ -91,18 +112,18 @@ body{
   height:100%;
   padding:20px;
   box-sizing:border-box;
-  font-family:'Great Vibes',cursive;
-  font-size:22px;
-  line-height:1.6;
-  color:#b3003c;
   overflow-y:auto;
+  color:#b3003c;
+  font-family:'Great Vibes',cursive;
+  font-size:28px;
+  line-height:1.7;
   white-space:pre-line;
   opacity:0;
   transition:1s;
   z-index:1;
 }
 
-/* Ouverture */
+/* OUVERTURE STYLE LETTRE */
 .open{
   height:520px;
 }
@@ -111,20 +132,99 @@ body{
 .open .side.right{transform:translateX(100%);}
 .open .letterText{opacity:1;}
 
-/* Film strips */
-.gallery{position:fixed; inset:0; opacity:0; pointer-events:none;}
-.filmContainer{position:absolute; inset:0; display:flex; justify-content:space-between; overflow:hidden;}
+/* GALERIE / FILM STRIPS */
+.gallery{
+  position:fixed;
+  inset:0;
+  opacity:0;
+  pointer-events:none;
+}
+
+.filmContainer{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:space-between;
+  overflow:hidden;
+}
+
 .stripWrapper{width:120px; overflow:hidden;}
-.filmStrip{position:relative; width:100%; background:black; display:flex; flex-direction:column; align-items:center; gap:20px; padding:40px 0; animation:scrollDown 12s linear infinite;}
+
+.filmStrip{
+  position:relative;
+  width:100%;
+  background:black;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:20px;
+  padding:40px 0;
+  animation:scrollDown 12s linear infinite;
+}
+
 .scrollUp{ animation:scrollUp 12s linear infinite; }
-.filmStrip img{width:90px; border-radius:6px; border:4px solid #222;}
-.filmStrip::before,.filmStrip::after{content:"";position:absolute;top:0;height:100%;width:20px; z-index:1; background:repeating-linear-gradient(to bottom,transparent 0px,transparent 30px,#111 30px,#111 50px);}
-.filmStrip::before{ left:0; } .filmStrip::after{ right:0; }
+
+.filmStrip img{
+  width:90px;
+  border-radius:6px;
+  border:4px solid #222;
+}
+
+/* Trous pellicule */
+.filmStrip::before,
+.filmStrip::after{
+  content:"";
+  position:absolute;
+  top:0;
+  height:100%;
+  width:20px;
+  z-index:1;
+  background:repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 30px,
+    #111 30px,
+    #111 50px
+  );
+}
+
+.filmStrip::before{ left:0; }
+.filmStrip::after{ right:0; }
+
 @keyframes scrollDown{from{transform:translateY(-50%);} to{transform:translateY(0%);}}
 @keyframes scrollUp{from{transform:translateY(0%);} to{transform:translateY(-50%);}}
-.centerOverlay{position:absolute; top:0; left:35%; width:30%; height:100%; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); z-index:3;}
-.finalMessage{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-family:'Great Vibes',cursive; font-size:60px; color:white; z-index:4; opacity:0; transition:2s;}
-@keyframes explode{from{transform:scale(1);opacity:1;} to{transform:scale(20);opacity:0;}}
+
+/* Overlay centre */
+.centerOverlay{
+  position:absolute;
+  top:0;
+  left:35%;
+  width:30%;
+  height:100%;
+  background:rgba(0,0,0,0.75);
+  backdrop-filter:blur(4px);
+  z-index:3;
+}
+
+/* Texte final */
+.finalMessage{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-family:'Great Vibes',cursive;
+  font-size:60px;
+  color:white;
+  z-index:4;
+  opacity:0;
+  transition:2s;
+}
+
+/* Feux d'artifice */
+@keyframes explode{
+  from{transform:scale(1);opacity:1;}
+  to{transform:scale(20);opacity:0;}
+}
 </style>
 </head>
 <body>
@@ -153,15 +253,33 @@ body{
 </audio>
 
 <script>
-let envelopeClickCount=0, musicStarted=false, typingFinished=false, reminderTimeout;
+let envelopeClickCount = 0;
+let musicStarted=false;
+let typingFinished = false;
+let reminderTimeout;
+let mouseDownPos={x:0,y:0};
+
 const music=document.getElementById("music");
-const envelope = document.getElementById("envelope");
-const textEl = document.getElementById("typedText");
+const envelope=document.getElementById("envelope");
+const textEl=document.getElementById("typedText");
+const text = `Mon amour,
 
-/* GALERIE */
-const images=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg","photo6.jpg","photo7.jpg","photo8.jpg"];
+Chaque jour avec toi est un cadeau ❤️  
+Je ne pourrai jamais t’en offrir assez pour t’exprimer tout l’amour que tu me procures.
 
-/* 💕 COEURS FLOTANTS */
+Malgré la distance qui nous sépare, ma passion pour toi ne fait que brûler plus fort…  
+Ce serait embêtant si ça me brûlait vraiment.
+
+Je dois passer cette deuxième Saint-Valentin loin de toi,  
+mais j’espère que ce petit présent saura te montrer que, peu importe la distance,  
+je pense à toi, je rêve de toi, je me languis de toi.
+
+Je t’aime.
+
+Sincèrement à toi,  
+Ton Théophile.`;
+
+/* COEURS */
 function createHeart(){
   const heart=document.createElement("div");
   heart.className="heart";
@@ -181,26 +299,13 @@ window.addEventListener("load",()=>{
 });
 
 function startMusic(){
-  if(!musicStarted){ music.play().catch(()=>{}); musicStarted=true; }
+  if(!musicStarted){
+    music.play().catch(()=>{});
+    musicStarted=true;
+  }
 }
 
-const text = `Mon amour,
-
-Chaque jour avec toi est un cadeau ❤️  
-Je ne pourrai jamais t’en offrir assez pour t’exprimer tout l’amour que tu me procures.
-
-Malgré la distance qui nous sépare, ma passion pour toi ne fait que brûler plus fort…  
-Ce serait embêtant si ça me brûlait vraiment.
-
-Je dois passer cette deuxième Saint-Valentin loin de toi,  
-mais j’espère que ce petit présent saura te montrer que, peu importe la distance,  
-je pense à toi, je rêve de toi, je me languis de toi.
-
-Je t’aime.
-
-Sincèrement à toi,  
-Ton Théophile.`;
-
+/* TYPEWRITER */
 function typeWriter(text,el,i=0){
   if(i<text.length){
     el.innerHTML+=text.charAt(i);
@@ -208,57 +313,97 @@ function typeWriter(text,el,i=0){
   }else{
     typingFinished = true;
     reminderTimeout = setTimeout(()=>{
-      if(envelopeClickCount < 2){ document.getElementById("reminder").style.opacity=1; }
+      if(envelopeClickCount < 1){
+        document.getElementById("reminder").style.opacity = 1;
+      }
     },8000);
   }
 }
 
-/* Clic détecté sans bloquer scroll */
-let mouseDownPos={x:0,y:0};
+/* ENVELOPPE CLICK */
 envelope.addEventListener("mousedown",(e)=>{mouseDownPos={x:e.clientX,y:e.clientY};});
 envelope.addEventListener("click",(e)=>{
   const dx=Math.abs(e.clientX - mouseDownPos.x);
   const dy=Math.abs(e.clientY - mouseDownPos.y);
   if(dx<5 && dy<5){
-    envelopeClickCount++;
-    if(envelopeClickCount===1){ startMusic(); envelope.classList.add("open"); typeWriter(text,textEl); }
-    else if(envelopeClickCount===2 && typingFinished){
+    startMusic();
+    if(!typingFinished){
+      // termine texte immédiatement
+      textEl.innerHTML=text;
+      typingFinished=true;
+      // rappel emoji
+      reminderTimeout = setTimeout(()=>{
+        if(envelopeClickCount < 1){ document.getElementById("reminder").style.opacity = 1; }
+      },8000);
+      envelope.classList.add("open");
+    } else {
+      // texte fini → compte clic pour la surprise finale
+      envelopeClickCount++;
       clearTimeout(reminderTimeout);
-      document.getElementById("reminder").style.opacity=0;
-      envelope.style.opacity=0;
-      showFinal();
+      document.getElementById("reminder").style.opacity = 0;
+      if(envelopeClickCount===1){
+        envelope.classList.add("open"); // assure l’ouverture visuelle si jamais
+      } else if(envelopeClickCount===2){
+        envelope.style.opacity=0;
+        showFinal();
+      }
     }
   }
 });
 
-/* FEUX + BANDES */
+/* GALERIE / FEUX */
+const images=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg","photo6.jpg","photo7.jpg","photo8.jpg"];
+
 function showFinal(){
-  const gallery=document.getElementById("gallery"); gallery.style.opacity=1;
-  const container=document.createElement("div"); container.className="filmContainer";
+  const gallery=document.getElementById("gallery");
+  gallery.style.opacity=1;
+
+  const container=document.createElement("div");
+  container.className="filmContainer";
+
   const totalStrips=8;
   for(let i=0;i<totalStrips;i++){
-    const wrapper=document.createElement("div"); wrapper.className="stripWrapper";
-    const strip=document.createElement("div"); strip.className="filmStrip";
+    const wrapper=document.createElement("div");
+    wrapper.className="stripWrapper";
+    const strip=document.createElement("div");
+    strip.className="filmStrip";
     if(i%2!==0) strip.classList.add("scrollUp");
-    for(let r=0;r<8;r++){ images.forEach(src=>{const img=document.createElement("img"); img.src=src; strip.appendChild(img);});}
-    wrapper.appendChild(strip); container.appendChild(wrapper);
+    for(let r=0;r<8;r++){ images.forEach(src=>{ const img=document.createElement("img"); img.src=src; strip.appendChild(img); }); }
+    wrapper.appendChild(strip);
+    container.appendChild(wrapper);
   }
   gallery.appendChild(container);
-  const overlay=document.createElement("div"); overlay.className="centerOverlay"; gallery.appendChild(overlay);
-  const final=document.createElement("div"); final.className="finalMessage"; final.innerHTML="Je t’aime plus que tout ❤️"; gallery.appendChild(final);
+
+  const overlay=document.createElement("div");
+  overlay.className="centerOverlay";
+  gallery.appendChild(overlay);
+
+  const final=document.createElement("div");
+  final.className="finalMessage";
+  final.innerHTML="Je t’aime plus que tout ❤️";
+  gallery.appendChild(final);
+
   setTimeout(()=>final.style.opacity=1,1500);
-  for(let i=0;i<30;i++){ setTimeout(createFirework,i*150);}
+
+  for(let i=0;i<30;i++){ setTimeout(createFirework,i*150); }
 }
 
 function createFirework(){
   const fw=document.createElement("div");
-  fw.style.position="absolute"; fw.style.left=Math.random()*100+"vw"; fw.style.top=Math.random()*100+"vh";
-  fw.style.width="8px"; fw.style.height="8px"; fw.style.borderRadius="50%";
-  fw.style.background=`hsl(${Math.random()*360},100%,60%)`; fw.style.zIndex="5";
-  fw.style.animation="explode 1s ease-out forwards"; document.body.appendChild(fw);
+  fw.style.position="absolute";
+  fw.style.left=Math.random()*100+"vw";
+  fw.style.top=Math.random()*100+"vh";
+  fw.style.width="8px";
+  fw.style.height="8px";
+  fw.style.borderRadius="50%";
+  fw.style.background=`hsl(${Math.random()*360},100%,60%)`;
+  fw.style.zIndex="5";
+  fw.style.animation="explode 1s ease-out forwards";
+  document.body.appendChild(fw);
   setTimeout(()=>fw.remove(),1000);
 }
 </script>
 </body>
 </html>
+
 
