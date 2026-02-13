@@ -88,6 +88,9 @@ body{
   opacity:0;
   transition:1s;
   overflow:hidden;
+  box-shadow:0 20px 40px rgba(0,0,0,0.25);
+  perspective:1000px;
+  transform-style:preserve-3d;
 }
 
 .flap{
@@ -97,10 +100,12 @@ body{
   background:#ff4d6d;
   clip-path:polygon(0 0,100% 0,50% 50%);
   transition:1s;
+  transform-origin:top;
+  backface-visibility:hidden;
 }
 
 .open .flap{
-  transform:rotateX(180deg);
+  transform:rotateX(-180deg);
   transform-origin:top;
 }
 
@@ -119,10 +124,27 @@ body{
   line-height:1.6;
   white-space:pre-line;
   overflow:auto;
+  background:linear-gradient(to bottom,#fffafc,#ffe6ec);
+  border-radius:10px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.15);
 }
 
 .open .message{
   opacity:1;
+}
+
+/*__Signature message enveloppe__*/
+.signature{
+  font-family:'Great Vibes',cursive;
+  font-size:1.2em;
+  opacity:0;
+  display:block;
+  margin-top:10px;
+  animation:fadeSignature 2s ease forwards;
+}
+
+@keyframes fadeSignature{
+  to{opacity:1;}
 }
 
 /* ================= FILM STRIPS ================= */
@@ -327,9 +349,13 @@ Ton Théophile.`;
 function typeWriter(text,el,i=0){
   if(i<text.length){
     el.innerHTML+=text.charAt(i);
-    setTimeout(()=>typeWriter(text,el,i+1),40);
+    setTimeout(()=>typeWriter(text,el,i+1),35);
+  }else{
+    el.innerHTML = el.innerHTML.replace(
+      "---SIGNATURE---",
+      "<br><span class='signature'>Sincèrement à toi,</span><br>"
+    );
   }
-  // ❌ On ne lance PLUS showFinal automatiquement
 }
 
 
@@ -422,5 +448,6 @@ function createFirework(){
 </script>
 </body>
 </html>
+
 
 
